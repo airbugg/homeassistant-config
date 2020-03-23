@@ -1,0 +1,80 @@
+resources:
+  - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+    type: module
+  - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+    type: module
+  - url: /hacsfiles/button-card/button-card.js
+    type: module
+  - url: /hacsfiles/simple-weather-card/simple-weather-card-bundle.js?v=0.7.2
+    type: module
+  - url: /hacsfiles/lovelace-gui-sandbox/gui-sandbox.js
+    type: module
+  - url: /local/synthwave-hass-extras.js
+    type: js
+  - url: /local/plugins/card-modder.js?v=1
+    type: js
+
+title: Eisenberg 31
+views:
+  - title: Home
+    path: default_view
+    theme: synthwave
+    cards:
+      - type: custom:gui-sandbox
+      - type: custom:button-card
+        entity: switch.switcher_rhvot
+        icon: mdi:water-boiler
+        color: rgb(28, 128, 199)
+        state:
+          - value: false
+            color: rgb(255, 0, 0)
+            icon: mdi:water-boiler-off
+      - type: custom:simple-weather-card
+        entity: weather.eisenberg_31
+        name: " "
+        backdrop: true
+      - type: horizontal-stack
+        cards:
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.israel_coronavirus_confirmed
+                name: Confirmed
+            line_color: blue
+            line_width: 8
+            font_size: 75
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.israel_coronavirus_recovered
+                name: Recovered
+            line_color: green
+            line_width: 8
+            font_size: 75
+          - type: custom:mini-graph-card
+            entities:
+              - entity: sensor.israel_coronavirus_deaths
+                name: Deaths
+            line_color: red
+            line_width: 8
+            font_size: 75
+      - type: horizontal-stack
+        cards:
+        - type: button
+          tap_action:
+            action: toggle
+          hold_action:
+            action: more-info
+          show_icon: true
+          show_name: true
+          name: Gateway Nightlight
+          state_color: true
+          entity: light.gateway_light_04cf8cac3cf3
+        - type: custom:button-card
+          tap_action:
+            action: toggle
+          hold_action:
+            action: more-info
+          show_icon: true
+          show_name: true
+          state_color: true
+          icon: mdi:water-boiler
+          entity: switch.switcher_rhvot 

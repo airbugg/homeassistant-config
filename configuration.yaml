@@ -1,0 +1,47 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  base_url: !secret base_url
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+frontend:
+  themes: !include_dir_merge_named themes
+
+lovelace:
+  mode: yaml
+
+xiaomi_aqara:
+  discovery_retry: 6
+  gateways:
+    - key: !secret xiaomi_gw_token
+
+switcher_kis:
+  phone_id: !secret switcher_phone_id
+  device_id: !secret switcher_device_id
+  device_password: !secret switcher_device_password
+
+
+homeassistant:
+  auth_providers:
+    - type: trusted_networks
+      trusted_networks:
+        - 192.168.1.0/24
+        - 192.168.2.0/24
+        - 192.168.8.0/24
+        - 192.168.9.0/24
+        - 127.0.0.1
+        - ::1
+      allow_bypass_login: true
+    - type: homeassistant
+
+logger:
+  default: critical
+  logs:
+    homeassistant.components.http.ban: warning
